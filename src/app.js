@@ -5,7 +5,9 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+const {dbConnect} = require("./utils/dbConnect");
 
+dbConnect();
 
 /**
  * Establecer el puerto
