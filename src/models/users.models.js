@@ -19,6 +19,23 @@ const showRoles = async () => {
 }
 
 
+const checkUserByEmail = async (user_id) => {
+    let client;
+    try {
+        const pool = dbConnect();
+        client = await pool.connect();
+
+        const answer = await client.query(users.checkUserByEmail, [user_id]);
+
+        return answer.rows[0]; 
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+
 const showAllUsers = async () => {
     let client;
     try {
@@ -105,6 +122,7 @@ const deleteUser = async (id_user) => {
 
 module.exports = {
     showRoles,
+    checkUserByEmail,
     showAllUsers,
     showUserById,
     createUser,
