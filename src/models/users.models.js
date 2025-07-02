@@ -19,13 +19,13 @@ const showRoles = async () => {
 }
 
 
-const checkUserByEmail = async (user_id) => {
+const checkUserByEmail = async (user_email) => {
     let client;
     try {
         const pool = dbConnect();
         client = await pool.connect();
 
-        const answer = await client.query(users.checkUserByEmail, [user_id]);
+        const answer = await client.query(users.checkUserByEmail, [user_email]);
 
         return answer.rows[0]; 
     } catch (error) {

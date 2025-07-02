@@ -5,9 +5,11 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const {dbConnect} = require("./utils/dbConnect");
 
-dbConnect();
+const authRoutes = require("./routes/auth.routes");
+/* const {dbConnect} = require("./utils/dbConnect");
+
+dbConnect(); */
 
 /**
  * Establecer el puerto
@@ -45,7 +47,7 @@ app.use(express.urlencoded({ extended: true }));
 /**
  * Rutas
  */
-
+app.use("/api/v1/auth", authRoutes);
 
 
 
