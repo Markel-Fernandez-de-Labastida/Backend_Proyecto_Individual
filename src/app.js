@@ -9,6 +9,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth.routes");
 const blogRoutes = require("./routes/blog.routes");
 const usersRoutes = require("./routes/users.routes");
+const favoriteRoutes = require("./routes/favorites.routes");
 /* const {dbConnect} = require("./utils/dbConnect");
 
 dbConnect(); */
@@ -52,6 +53,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/blog", blogRoutes);
 app.use("/api/v1/users", usersRoutes);
+app.use("/api/v1/favorites", favoriteRoutes);
 
 
 
