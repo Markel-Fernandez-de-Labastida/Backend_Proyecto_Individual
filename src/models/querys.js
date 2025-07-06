@@ -25,8 +25,8 @@ const users = {
     deleteUser: `delete from users 
                 where id_user= $1
                 RETURNING user_name, user_password, user_email, user_role`,
-    createFavorites: `INSERT INTO favorites(user_id, track_id) VALUES($1, $2)`,
-    deleteUser: `delete from favorites where id_favorite = $1`
+    createFavorites: `INSERT INTO favorites(user_id, track_id) VALUES($1, $2) RETURNING *`,
+    deleteFavorites: `delete from favorites where id_favorite = $1 RETURNING *`
 }
 
 const blog = {
