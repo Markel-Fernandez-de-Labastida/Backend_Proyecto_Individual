@@ -15,7 +15,6 @@ const { createJWToken } = require('../utils/createJWToken');
 const login = async (req, res) => {
     const {user_email, user_password} = req.body;
     try {
-        // TODO: No traer el correo
         const email = await checkUserByEmail(user_email);
         if (!email) {
             return res.status(404).json({

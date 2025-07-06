@@ -1,5 +1,21 @@
-const { users } = require("../models/querys");
+const {blog} = require("../models/querys");
 const {dbConnect} = require("../utils/dbConnect");
+
+const idExists = async (id_post) => {
+        let client;
+    try {
+        const pool = dbConnect();
+        client = await pool.connect();
+
+        const answer = await client.query(blog.checkPostExsists, [id_post]);
+
+        return answer.rows[0]; 
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
 
 
 const showRoles = async () => {
@@ -18,37 +34,6 @@ const showRoles = async () => {
     }
 }
 
-const checkUsers = async (id_role) => {
-        let client;
-    try {
-        const pool = dbConnect();
-        client = await pool.connect();
-
-        const answer = await client.query(users.checkUserExist, [id_role]);
-
-        return answer.rows; 
-    } catch (error) {
-        throw error;
-    } finally {
-        client.release();
-    }
-}
-
-const checkRoles = async (id_role) => {
-        let client;
-    try {
-        const pool = dbConnect();
-        client = await pool.connect();
-
-        const answer = await client.query(users.checkRoles, [id_role]);
-
-        return answer.rows; 
-    } catch (error) {
-        throw error;
-    } finally {
-        client.release();
-    }
-}
 
 const checkUserByEmail = async (user_email) => {
     let client;
@@ -67,13 +52,13 @@ const checkUserByEmail = async (user_email) => {
 }
 
 
-const showAllUsers = async () => {
+const showAllPosts = async () => {
     let client;
     try {
         const pool = dbConnect();
         client = await pool.connect();
 
-        const answer = await client.query(users.showAllUsers);
+        const answer = await client.query(blog.showAllPosts);
 
         return answer.rows; 
     } catch (error) {
@@ -84,13 +69,13 @@ const showAllUsers = async () => {
 }
 
 
-const showUserById = async (id_user) => {
+const postAllDetails = async (id_post) => {
     let client;
     try {
         const poll = dbConnect();
         client = await poll.connect();
 
-        const answer = await client.query(users.showUserById, [id_user]);
+        const answer = await client.query(blog.postAllDetails, [id_post]);
 
         return answer.rows[0];
     } catch (error) {
@@ -101,13 +86,13 @@ const showUserById = async (id_user) => {
 }
 
 
-const createUser = async (user_name, user_password, user_email, user_role) => {
+const createPost = async (post_user, post_title, post_subtitle, post_content, date_insert) => {
     let client;
     try {
         const poll = dbConnect();
         client = await poll.connect();
 
-        const answer = await client.query(users.createUser, [user_name, user_password, user_email, user_role]);
+        const answer = await client.query(blog.createPost, [post_user, post_title, post_subtitle, post_content, date_insert]);
 
         return answer.rows;
     } catch (error) {
@@ -118,13 +103,13 @@ const createUser = async (user_name, user_password, user_email, user_role) => {
 }
 
 
-const modifyUser = async (user_role, user_id) => {
+const modifyPost = async (id_post, post_title, post_subtitle, post_content, date_insert) => {
     let client;
     try {
         const poll = dbConnect();
         client = await poll.connect();
 
-        const answer = await client.query(users.modifyUser, [user_role, user_id])
+        const answer = await client.query(blog.modifyPost, [id_post, post_title, post_subtitle, post_content, date_insert])
 
         return answer.rows;
     } catch (error) {
@@ -135,15 +120,15 @@ const modifyUser = async (user_role, user_id) => {
 }
 
 
-const deleteUser = async (id_user) => {
+const deletePost = async (id_post) => {
     let client;
     try {
         const poll = dbConnect();
         client = await poll.connect();
 
-        const answer = await client.query(users.deleteUser, [id_user]);
+        const answer = await client.query(blog.deletePost, [id_post]);
 
-        return answer.rows;
+        return answer.rows[0];
     } catch (error) {
         throw error;
     } finally {
@@ -152,13 +137,12 @@ const deleteUser = async (id_user) => {
 }
 
 module.exports = {
+    idExists,
     showRoles,
-    checkUsers,
-    checkRoles,
     checkUserByEmail,
-    showAllUsers,
-    showUserById,
-    createUser,
-    modifyUser,
-    deleteUser
+    showAllPosts,
+    postAllDetails,
+    createPost,
+    modifyPost,
+    deletePost
 }

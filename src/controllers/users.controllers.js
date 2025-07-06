@@ -6,34 +6,10 @@ const {
     modifyUser,
     deleteUser,
     showRoles,
-    checkLogin
+    checkRoles,
+    checkLogin,
+    checkUsers
 } = require("../models/users.models");
-
-
-const login = async (req, res) => {
-    const {user_email, user_password} = req.body;
-    try {
-        const email = await checkUserByEmail(user_email);
-        if (!email) {
-            return res.status(404).json({
-                ok: false,
-                msg: "El correo o la contraseña es incorrecta",
-            })
-        }
-        const verifyPassword = bcrypt.compareSync(user_password, email.user_password);
-        if (!verifyPassword) {
-            return res.status(401).json({
-                ok: false,
-                msg: 'El correo o la contraseña es incorrecta'
-            })
-        }
-
-        // TODO: Crear token
-
-    } catch (error) {
-        
-    }
-}
 
 const getRoles = async (req, res) => {
     try {
@@ -46,7 +22,7 @@ const getRoles = async (req, res) => {
         } else {
             return res.status(200).json({
                 ok: true,
-                msg: "Usuario creado",
+                msg: "Roles recividos",
                 data: answer,
             })
         }
@@ -137,29 +113,41 @@ const getUserById = async (req, res) => {
     }
 }
 
-
-const singUp = async (req, res) => {
+const insertUser = async (req, res) => {
     const {user_name, user_password, user_email, user_role} = req.body;
     try {
-        // TODO: comprobar si el rol existe
+        const email = await checkUserByEmail(user_email);
+        if (email) {
+            return res.status(404).json({
+                ok: false,
+                msg: "El correo ya existe",
+            })
+        }
+        const role = await checkRoles(user_role);
+        if (!role) {
+            return res.status(404).json({
+                ok: false,
+                msg: "El rol introducido no existe",
+            })
+        }
         const answer = await createUser(user_name, user_password, user_email, user_role);
         if (!answer) {
             res.status(404).json({
                 ok: false,
-                msg: "Error al insertar usuario"
+                msg: "Error al insertar un usuario"
             })
         } else {
-            res.status(201).json({
-                ok: false,
-                msg: "Usuario creado",
-                data: answer,
+            res.status(200).json({
+                ok: true,
+                msg: "Usuario insertado",
+                data: answer
             })
         }
     } catch (error) {
-        console.log(error);
+        console.log({error});
         res.status(500).json({
             ok: false,
-            msg: "Error. Contacte con el administrador"
+            msg: "ERROR. Contacte con el administrador"
         })
     }
 }
@@ -168,9 +156,13 @@ const singUp = async (req, res) => {
 const updateUser = async (req, res) => {
     const {user_role, user_id} = req.body;
     try {
-        // TODO: Comprobar que el rol existe
-        // TODO: Comprobar que el usuario existe
-
+        const role = await checkRoles(user_role);
+        if (!role) {
+            return res.status(404).json({
+                ok: false,
+                msg: "El rol introducido no existe",
+            })
+        }
         const answer = await modifyUser(user_role, user_id);
         if (!answer) {
             res.status(404).json({
@@ -195,11 +187,17 @@ const updateUser = async (req, res) => {
 
 
 const delUser = async (req, res) => {
-    const {user_id} = req.body;
+    const {id_user} = req.body;
     try {
         // TODO: Comprobar que el usuario existe
-
-        const answer = await deleteUser(user_id);
+        const user = await checkUsers(id_user);
+        if (!user) {
+            return res.status(404).json({
+                ok: false,
+                msg: "El usuario introducido no existe",
+            })
+        }
+        const answer = await deleteUser(id_user);
         if (!answer) {
             res.status(404).json({
                 ok: false,
@@ -222,11 +220,10 @@ const delUser = async (req, res) => {
 }
 
 module.exports = {
-    login,
     getRoles,
     getAllUsers,
     getUserById,
-    singUp,
+    insertUser,
     updateUser,
     delUser
 }
