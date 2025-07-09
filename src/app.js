@@ -10,6 +10,7 @@ const authRoutes = require("./routes/auth.routes");
 const blogRoutes = require("./routes/blog.routes");
 const usersRoutes = require("./routes/users.routes");
 const favoriteRoutes = require("./routes/favorites.routes");
+const spotifyRoutes = require("./routes/spotify.routes");
 /* const {dbConnect} = require("./utils/dbConnect");
 
 dbConnect(); */
@@ -57,7 +58,14 @@ app.use("/api/v1/favorites", favoriteRoutes);
 
 
 
-
+/**
+ * Autorización Spotify
+ */
+/* const client_id = process.env.CLIENT_ID;
+const redirect_uri = process.env.CLIENT_SECRET;
+// http://127.0.0.1:3000/api/v1/spotify/login
+ */
+app.use("/api/v1/spotify", spotifyRoutes);
 
 /**
  * Pone el puerto a la escucha del servidor
