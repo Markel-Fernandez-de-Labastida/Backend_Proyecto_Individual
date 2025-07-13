@@ -6,7 +6,7 @@ const {
 
 
 const insertFavorites = async (req, res) => {
-    const {id_user, id_track} = req.body;
+    const { id_user, id_track } = req.body;
     try {
         const posts = await addFavorite(id_user, id_track);
         if (!posts) {
@@ -31,7 +31,7 @@ const insertFavorites = async (req, res) => {
 }
 
 const deleteFavorites = async (req, res) => {
-    const {id_favorite} = req.body;
+    const { id_favorite } = req.body;
     try {
         const posts = await delFavorite(id_favorite);
         if (!posts) {

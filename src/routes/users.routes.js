@@ -24,6 +24,7 @@ routes.get('/AllUsers', /* [
         check("user_password", "Invalid password").isLength({min: 6, max: 20}).withMessage('Debe tener entre 3 y 100 caracteres'),
         validateInput
 ], */ getAllUsers);
+routes.get('/UserById', getUserById);
 routes.post('/Create', insertUser);
 routes.post('/Update', updateUser);
 routes.delete('/Delete', delUser);
