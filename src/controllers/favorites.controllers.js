@@ -4,7 +4,13 @@ const {
 } = require("../models/favorites.models");
 
 
-
+/**
+ * Inserta una cancion a favoritos
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const insertFavorites = async (req, res) => {
     const { id_user, id_track } = req.body;
     try {
@@ -30,6 +36,13 @@ const insertFavorites = async (req, res) => {
     }
 }
 
+/**
+ * Elimina una cancion de favoritos
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const deleteFavorites = async (req, res) => {
     const { id_favorite } = req.body;
     try {

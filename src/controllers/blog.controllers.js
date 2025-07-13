@@ -12,6 +12,13 @@ const {
 const { showUserById } = require('../models/users.models')
 const { post } = require("../routes/auth.routes");
 
+/**
+ * Recive todas las noticias
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const getAllPosts = async (req, res) => {
     try {
         const posts = await showAllPosts();
@@ -36,6 +43,13 @@ const getAllPosts = async (req, res) => {
     }
 }
 
+/**
+ * Recive todas las noticias que ha creado un usuario
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const getPostsByUserId = async (req, res) => {
     console.log("req: ", req.params);
     const { id_user } = req.params;
@@ -71,6 +85,13 @@ const getPostsByUserId = async (req, res) => {
     }
 }
 
+/**
+ * Recive todos los campos de una noticia
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const getAllDetails = async (req, res) => {
     const { id_post } = req.params;
     console.log("req params: ", id_post)
@@ -105,6 +126,13 @@ const getAllDetails = async (req, res) => {
     }
 }
 
+/**
+ * Crea una nueva noticia
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const insertPost = async (req, res) => {
     const { post_user, post_title, post_subtitle, post_content, date_insert } = req.body;
     try {
@@ -130,6 +158,13 @@ const insertPost = async (req, res) => {
     }
 }
 
+/**
+ * Actualiza una noticia
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const updatePost = async (req, res) => {
     const { id_post, post_title, post_subtitle, post_content, date_insert } = req.body;
     try {
@@ -162,6 +197,13 @@ const updatePost = async (req, res) => {
     }
 }
 
+/**
+ * Elimina una noticia
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const delPost = async (req, res) => {
     const { id_post } = req.params;
     try {

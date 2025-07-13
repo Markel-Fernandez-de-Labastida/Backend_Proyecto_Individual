@@ -11,7 +11,12 @@ function makeid(length) {
 }
 
 var token;
-
+/**
+ * Logea a Spotify con una cuenta Spotify
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns 
+ */
 const login = async (req, res) => {
   console.log("Entre espotify")
   // state: Optional, but strongly recommended -> 

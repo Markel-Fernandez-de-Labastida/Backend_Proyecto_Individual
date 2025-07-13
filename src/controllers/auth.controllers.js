@@ -11,7 +11,13 @@ const {
 } = require("../models/users.models");
 const { createJWToken } = require('../utils/createJWToken');
 
-
+/**
+ * Logea a un usuario
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos del usuario y el token JWT.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const login = async (req, res) => {
     const { user_email, user_password } = req.body;
     try {
@@ -63,6 +69,13 @@ const login = async (req, res) => {
     }
 }
 
+/**
+ * Registra a un usuario
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje y datos del usuario.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const registry = async (req, res) => {
     console.log("Registro: ", req.body);
     const { user_name, user_password, user_email, user_role } = req.body;
@@ -107,6 +120,13 @@ const registry = async (req, res) => {
     }
 }
 
+/**
+ * Renueva el JWT a un usuario
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true y un nuevo token JWT.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const renewJWToken = async (req, res) => {
     // Crear el "verifyJWT" para validar y guardar en req los datos de id y role
     //console.log("renew req :",req);

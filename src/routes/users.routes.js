@@ -17,7 +17,7 @@ const { validateInput } = require("../middleware/validateInput");
 const routes = Router();
 
 /**
- * Rutas usuario
+ * Rutas de usuario
  */
 routes.get('/AllUsers', /* [
         check("user_email", "invalid email").notEmpty().isEmail(),

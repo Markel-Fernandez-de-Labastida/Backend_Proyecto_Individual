@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken')
 
-
+/**
+ * Crea un nuevo JWT
+ * @param {number} id ID del usuario
+ * @param {string} role Rol del usuario
+ * @returns Envia un JWT nuevo con los datos del usuario que se acaba de loguear
+ */
 const createJWToken = (id, role) => {
     return new Promise((resolve, reject) => {
 

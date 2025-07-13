@@ -3,7 +3,7 @@ const { login, callback, spotifyToken } = require("../controllers/spotify.contro
 const routes = Router();
 
 /**
- * Rutas usuario
+ * Rutas Spotify
  */
 routes.get('/login', login);
 routes.get('/callback', callback);

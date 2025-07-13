@@ -1,7 +1,10 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
-
+/**
+ * Conexion a base de datos
+ * @returns 
+ */
 const dbConnect = () => {
   try {
     const pool = new Pool({
@@ -20,5 +23,5 @@ const dbConnect = () => {
 };
 
 module.exports = {
-    dbConnect
+  dbConnect
 };

@@ -13,9 +13,6 @@ const blogRoutes = require("./routes/blog.routes");
 const usersRoutes = require("./routes/users.routes");
 const favoriteRoutes = require("./routes/favorites.routes");
 const spotifyRoutes = require("./routes/spotify.routes");
-/* const {dbConnect} = require("./utils/dbConnect");
-
-dbConnect(); */
 
 /**
  * Establecer el puerto

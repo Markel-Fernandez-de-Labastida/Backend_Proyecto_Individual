@@ -1,6 +1,13 @@
 var jwt = require('jsonwebtoken');
 
-
+/**
+ * Verifica si el JWT es autentico
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos saliente
+ * @param {object} next Continua al controlador o a otro middleware
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const verifyJWT = async (req, res, next) => {
     console.log("verify header: ", req.header);
     const authorization = req.header('authorization');

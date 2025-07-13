@@ -14,7 +14,7 @@ const { validateInput } = require("../middleware/validateInput");
 const routes = Router();
 
 /**
- * Rutas usuario
+ * Rutas de favoritos
  */
 routes.post('/AddFavorite', /* [
         check("user_email", "invalid email").notEmpty().isEmail(),
