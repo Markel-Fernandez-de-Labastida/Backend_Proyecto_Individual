@@ -2,12 +2,14 @@ const {
     idExists,
     showRoles,
     checkUserByEmail,
+    postByUserId,
     showAllPosts,
     postAllDetails,
     createPost,
     modifyPost,
     deletePost
 } = require("../models/blog.models");
+const { showUserById } = require('../models/users.models')
 const { post } = require("../routes/auth.routes");
 
 const getAllPosts = async (req, res) => {
@@ -34,8 +36,44 @@ const getAllPosts = async (req, res) => {
     }
 }
 
+const getPostsByUserId = async (req, res) => {
+    console.log("req: ", req.params);
+    const { id_user } = req.params;
+    //console.log("req params: ", id_user)
+    try {
+        // TODO: comprobar si el id existe
+        const answer = await showUserById(id_user);
+        if (!answer) {
+            return res.status(404).json({
+                ok: false,
+                msg: "El usuario no existe",
+            })
+        }
+        const posts = await postByUserId(id_user);
+        if (!posts) {
+            return res.status(404).json({
+                ok: false,
+                msg: "No se han encontrado noticias",
+            })
+        } else {
+            return res.status(200).json({
+                ok: true,
+                msg: "Noticias recividas",
+                data: posts,
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error. Contacte con el administrador'
+        })
+    }
+}
+
 const getAllDetails = async (req, res) => {
-    const {id_post} = req.params;
+    const { id_post } = req.params;
+    console.log("req params: ", id_post)
     try {
         // TODO: comprobar si el id existe
         const post = await idExists(id_post);
@@ -68,7 +106,7 @@ const getAllDetails = async (req, res) => {
 }
 
 const insertPost = async (req, res) => {
-    const {post_user, post_title, post_subtitle, post_content, date_insert} = req.body;
+    const { post_user, post_title, post_subtitle, post_content, date_insert } = req.body;
     try {
         const posts = await createPost(post_user, post_title, post_subtitle, post_content, date_insert);
         if (!posts) {
@@ -93,7 +131,7 @@ const insertPost = async (req, res) => {
 }
 
 const updatePost = async (req, res) => {
-    const {id_post, post_title, post_subtitle, post_content, date_insert} = req.body;
+    const { id_post, post_title, post_subtitle, post_content, date_insert } = req.body;
     try {
         const post = await idExists(id_post);
         if (!post) {
@@ -125,7 +163,7 @@ const updatePost = async (req, res) => {
 }
 
 const delPost = async (req, res) => {
-    const {id_post} = req.body;
+    const { id_post } = req.params;
     try {
         const post = await idExists(id_post);
         if (!post) {
@@ -158,6 +196,7 @@ const delPost = async (req, res) => {
 module.exports = {
     getAllPosts,
     getAllDetails,
+    getPostsByUserId,
     insertPost,
     updatePost,
     delPost

@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const {login, callback} = require("../controllers/spotify.controllers")
+const { login, callback, spotifyToken } = require("../controllers/spotify.controllers")
 const routes = Router();
 
 /**
@@ -7,6 +7,6 @@ const routes = Router();
  */
 routes.get('/login', login);
 routes.get('/callback', callback);
-
+routes.get('/token', spotifyToken);
 
 module.exports = routes;

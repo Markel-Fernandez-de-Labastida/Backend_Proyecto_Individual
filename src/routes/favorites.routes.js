@@ -4,8 +4,8 @@
 const { Router } = require("express");
 const { check } = require('express-validator');
 const {
- insertFavorites,
- deleteFavorites 
+        insertFavorites,
+        deleteFavorites
 } = require("../controllers/favorites.controllers");
 const { verifyRole } = require("../middleware/verifyRole");
 const { verifyJWT } = require("../middleware/verifyJWT");

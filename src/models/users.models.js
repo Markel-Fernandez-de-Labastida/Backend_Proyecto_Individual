@@ -1,16 +1,16 @@
 const { users } = require("../models/querys");
-const {dbConnect} = require("../utils/dbConnect");
+const { dbConnect } = require("../utils/dbConnect");
 
 
 const showRoles = async () => {
-        let client;
+    let client;
     try {
         const pool = dbConnect();
         client = await pool.connect();
 
         const answer = await client.query(users.showRoles);
 
-        return answer.rows; 
+        return answer.rows;
     } catch (error) {
         throw error;
     } finally {
@@ -19,14 +19,14 @@ const showRoles = async () => {
 }
 
 const checkUsers = async (id_role) => {
-        let client;
+    let client;
     try {
         const pool = dbConnect();
         client = await pool.connect();
 
         const answer = await client.query(users.checkUserExist, [id_role]);
 
-        return answer.rows; 
+        return answer.rows;
     } catch (error) {
         throw error;
     } finally {
@@ -35,14 +35,14 @@ const checkUsers = async (id_role) => {
 }
 
 const checkRoles = async (id_role) => {
-        let client;
+    let client;
     try {
         const pool = dbConnect();
         client = await pool.connect();
 
         const answer = await client.query(users.checkRoles, [id_role]);
 
-        return answer.rows; 
+        return answer.rows;
     } catch (error) {
         throw error;
     } finally {
@@ -58,7 +58,7 @@ const checkUserByEmail = async (user_email) => {
 
         const answer = await client.query(users.checkUserByEmail, [user_email]);
 
-        return answer.rows[0]; 
+        return answer.rows[0];
     } catch (error) {
         throw error;
     } finally {
@@ -75,7 +75,7 @@ const showAllUsers = async () => {
 
         const answer = await client.query(users.showAllUsers);
 
-        return answer.rows; 
+        return answer.rows;
     } catch (error) {
         throw error;
     } finally {

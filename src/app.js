@@ -32,8 +32,9 @@ const app = express();
 const whiteList = [
   "http://localhost:3000",
   "http://localhost:5173",
-//  "https://frontend-movie-app-b8in.onrender.com",
-//  "https://frontend-proyectbackendgroup1.onrender.com",
+  '*'
+  //  "https://frontend-movie-app-b8in.onrender.com",
+  //  "https://frontend-proyectbackendgroup1.onrender.com",
 ];
 
 app.use(

@@ -1,15 +1,15 @@
-const {blog} = require("../models/querys");
-const {dbConnect} = require("../utils/dbConnect");
+const { blog } = require("../models/querys");
+const { dbConnect } = require("../utils/dbConnect");
 
 const idExists = async (id_post) => {
-        let client;
+    let client;
     try {
         const pool = dbConnect();
         client = await pool.connect();
 
         const answer = await client.query(blog.checkPostExsists, [id_post]);
 
-        return answer.rows[0]; 
+        return answer.rows[0];
     } catch (error) {
         throw error;
     } finally {
@@ -19,14 +19,14 @@ const idExists = async (id_post) => {
 
 
 const showRoles = async () => {
-        let client;
+    let client;
     try {
         const pool = dbConnect();
         client = await pool.connect();
 
         const answer = await client.query(users.showRoles);
 
-        return answer.rows; 
+        return answer.rows;
     } catch (error) {
         throw error;
     } finally {
@@ -43,7 +43,7 @@ const checkUserByEmail = async (user_email) => {
 
         const answer = await client.query(users.checkUserByEmail, [user_email]);
 
-        return answer.rows[0]; 
+        return answer.rows[0];
     } catch (error) {
         throw error;
     } finally {
@@ -60,7 +60,23 @@ const showAllPosts = async () => {
 
         const answer = await client.query(blog.showAllPosts);
 
-        return answer.rows; 
+        return answer.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+const postByUserId = async (id_user) => {
+    let client;
+    try {
+        const poll = dbConnect();
+        client = await poll.connect();
+
+        const answer = await client.query(blog.showPostsByUserId, [id_user]);
+
+        return answer.rows;
     } catch (error) {
         throw error;
     } finally {
@@ -139,6 +155,7 @@ const deletePost = async (id_post) => {
 module.exports = {
     idExists,
     showRoles,
+    postByUserId,
     checkUserByEmail,
     showAllPosts,
     postAllDetails,
