@@ -88,7 +88,7 @@ const getAllUsers = async (req, res) => {
 
 
 const getUserById = async (req, res) => {
-    const { id_user } = req.body;
+    const { id_user } = req.params;
     try {
         // TODO: Comprobar si el id existe
         const answer = await showUserById(id_user);
