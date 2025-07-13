@@ -5,6 +5,8 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 const authRoutes = require("./routes/auth.routes");
 const blogRoutes = require("./routes/blog.routes");
@@ -52,6 +54,9 @@ app.use(express.urlencoded({ extended: true }));
 /**
  * Rutas
  */
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/blog", blogRoutes);
 app.use("/api/v1/users", usersRoutes);

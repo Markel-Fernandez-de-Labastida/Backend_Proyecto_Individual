@@ -21,7 +21,7 @@ routes.post('/AddFavorite', /* [
         check("user_password", "Invalid password").isLength({min: 6, max: 20}).withMessage('Debe tener entre 3 y 100 caracteres'),
         validateInput
 ], */ insertFavorites);
-routes.post('/DelFavorite', deleteFavorites);
+routes.delete('/DelFavorite', deleteFavorites);
 
 module.exports = routes;
 

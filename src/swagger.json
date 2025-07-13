@@ -1,0 +1,1056 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "API NodeJS API Noticias",
+    "version": "1.0.0",
+    "title": "Proyecto Individual Markel",
+    "contact": {
+      "email": "markelfdz8@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:3000",
+  "tags": [
+    {
+      "name": "users",
+      "description": "Endpoints de usuarios"
+    },
+    {
+      "name": "auth",
+      "description": "Endpoints de autenticacion"
+    },
+    {
+      "name": "blog",
+      "description": "Endpoints de blog"
+    },
+    {
+      "name": "favorites",
+      "description": "Endpoints de favoritos"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logea a un usuario",
+        "description": "Comprueba que el usuario con el correo y la contraseña introducida existe, para despues crear un JWT y enviarlo al cliente",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user_email",
+            "description": "email para logear",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_password",
+            "description": "contraseña para logear",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario logueado",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "El correo o la contraseña es incorrecta",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Registra un nuevo usuario",
+        "description": "Comprueba que el correo introducido no exista, sino crea al usuario",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user_name",
+            "description": "nombre para registrarse",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_password",
+            "description": "contraseña para registrar",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_email",
+            "description": "email para registrarse",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_role",
+            "description": "rol para registrarse",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuario creado",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Error al registrarse",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/renewJWToken": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Renueva el JWT",
+        "description": "Envia un JWT nuevo al cliente",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "JWT renovada",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "IError al renovar JWT",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/blog/AllPosts": {
+      "get": {
+        "tags": [
+          "blog"
+        ],
+        "summary": "Recoge todas las noticias",
+        "description": "Envia al cliente todas las noticias",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Noticias recividas",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se han encontrado noticias",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/blog/allDetails/:id_post": {
+      "get": {
+        "tags": [
+          "blog"
+        ],
+        "summary": "Mostrar todos los detalles de un a noticia",
+        "description": "Mediante el id de la noticia se muestran todos los datos",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id_post",
+            "description": "id de la noticia",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Noticias recividas",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se han encontrado noticias",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/blog/getPostsByUser/:id_user": {
+      "get": {
+        "tags": [
+          "blog"
+        ],
+        "summary": "Mostrar todas las noticias de un usuario",
+        "description": "Mediante el id de un usuario se muestran sus noticias",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id_user",
+            "description": "id del usuario",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Noticias recividas",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se han encontrado noticias",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/blog/create": {
+      "post": {
+        "tags": [
+          "blog"
+        ],
+        "summary": "Crear una nueva noticia",
+        "description": "Crea con los datos introducidos un nuevo usuario",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user_user",
+            "description": "nombre para registrarse",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_title",
+            "description": "contraseña para registrar",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_subtitle",
+            "description": "Subtitulo de la noticia",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "post_content",
+            "description": "Contenido de la noticia",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "date_insert",
+            "description": "Fecha de inserción de la noticia",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Noticia creado",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se ha podido crear el post",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/blog/update": {
+      "post": {
+        "tags": [
+          "blog"
+        ],
+        "summary": "Actualiza una noticia",
+        "description": "Actualiza una noticia",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id_post",
+            "description": "id de la noticia",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "post_title",
+            "description": "Titulo de la noticia",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "post_subtitle",
+            "description": "Subtitulo de la noticia",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "post_content",
+            "description": "Contenido de la noticia",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "date_insert",
+            "description": "Fecha de inserción de la noticia",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Noticia actualizada",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se ha podido actualizar el post",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/blog/delete/:id_post": {
+      "delete": {
+        "tags": [
+          "blog"
+        ],
+        "summary": "AEliminar una noticia",
+        "description": "Eliminar una noticia",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id_post",
+            "description": "id de la noticia",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Noticia actualizada",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se ha podido actualizar el post",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/users/AllUsers": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Recoge todos los usuarios",
+        "description": "Envia al cliente todos los usuarios",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Usuarios recibidos",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Error al mostrar a todos los usuarios",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/users/UserById/:id_user": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Recoge el usuario del id",
+        "description": "Envia al cliente el usuario que tenga el id pasado por los parametros",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id_user",
+            "description": "id del usuario",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuarios recibidos",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Error al mostrar a todos los usuarios",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/users/Create": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Crear un nuevo usuario",
+        "description": "Crea con los datos introducidos un nuevo usuario",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user_name",
+            "description": "nombre del usuario",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_password",
+            "description": "contraseña del usuario",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_email",
+            "description": "email del usuario",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_role",
+            "description": "rol del usuario",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuario creado",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se ha podido crear el usuario",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/users/Update": {
+      "post": {
+        "tags": [
+          "blog"
+        ],
+        "summary": "Actualiza un usuario",
+        "description": "Actualiza un usuario",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user_role",
+            "description": "role del usuario",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "user_id",
+            "description": "id del usuario",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuario actualizada",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se ha podido actualizar el usuario",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/users/Delete": {
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Eliminar un usuario",
+        "description": "Eliminar un usuario",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id_user",
+            "description": "id de la noticia",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Noticia actualizada",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se ha podido actualizar el post",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/favorites/AddFavorite": {
+      "post": {
+        "tags": [
+          "favorites"
+        ],
+        "summary": "Crear un favorito",
+        "description": "Crea con los datos introducidos un nuevo favorito",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id_user",
+            "description": "id del usuario",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          },
+          {
+            "in": "body",
+            "name": "id_track",
+            "description": "id de la canción",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Favorito creado",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se ha podido crear el favorito",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/favorites//DelFavorite": {
+      "post": {
+        "tags": [
+          "favorites"
+        ],
+        "summary": "Crear un favorito",
+        "description": "Crea con los datos introducidos un nuevo favorito",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id_favorite",
+            "description": "id del favorito",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuario creado",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "No se ha podido crear el usuario",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "todosResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "task": {
+          "type": "string"
+        },
+        "assignee": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string"
+        },
+        "assignee": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "InvalidResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
