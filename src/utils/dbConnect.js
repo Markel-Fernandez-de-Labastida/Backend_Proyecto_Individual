@@ -3,7 +3,6 @@ require("dotenv").config();
 
 /**
  * Conexion a base de datos
- * @returns 
  */
 const dbConnect = () => {
   try {
