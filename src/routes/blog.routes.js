@@ -28,7 +28,7 @@ routes.get('/AllPosts', /* [
 routes.get('/allDetails/:id_post', getAllDetails);
 routes.get('/getPostsByUser/:id_user', getPostsByUserId)
 routes.post('/create', insertPost);
-routes.post('/update', updatePost);
+routes.put('/update', updatePost);
 routes.delete('/delete/:id_post', delPost);
 
 

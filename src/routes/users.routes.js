@@ -26,7 +26,7 @@ routes.get('/AllUsers', /* [
 ], */ getAllUsers);
 routes.get('/UserById/:id_user', getUserById);
 routes.post('/Create', insertUser);
-routes.post('/Update', updateUser);
+routes.put('/Update', updateUser);
 routes.delete('/Delete', delUser);
 
 module.exports = routes;
