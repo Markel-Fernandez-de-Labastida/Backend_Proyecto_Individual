@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/users.models.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/users.models.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { users } = require("../models/querys");
+const { dbConnect } = require("../utils/dbConnect");
+
+/**
+ * Retorna todos los roles en la tabla de roles
+ * @returns Retorna todos los roles en la tabla de roles
+ */
+const showRoles = async () => {
+    let client;
+    try {
+        const pool = dbConnect();
+        client = await pool.connect();
+
+        const answer = await client.query(users.showRoles);
+
+        return answer.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+/**
+ * Comprueba que hay usuarios con el rol introducido
+ * @param {number} id_role Id del rol
+ * @returns Retorna: si sale bien, devuelve los datos de los usuarios con el rol introducido.
+ * Si sale mal, error o vacio
+ */
+const checkUsers = async (id_role) => {
+    let client;
+    try {
+        const pool = dbConnect();
+        client = await pool.connect();
+
+        const answer = await client.query(users.checkUserExist, [id_role]);
+
+        return answer.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+/**
+ * Comprueba que el rol introducido existe
+ * @param {number} id_role Id del rol
+ * @returns Retorna: Si sale bien, el rol introducido.
+ * Si sale mal, error o vacio
+ */
+const checkRoles = async (id_role) => {
+    let client;
+    try {
+        const pool = dbConnect();
+        client = await pool.connect();
+
+        const answer = await client.query(users.checkRoles, [id_role]);
+
+        return answer.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+/**
+ * Comprueba que existe un usuario con el email introducido
+ * @param {string} user_email Email de un usuario
+ * @returns Retorna: Si sale bien, todos los campos del usuario con el email introducido.
+ * Si sale mal, error o vacio
+ */
+const checkUserByEmail = async (user_email) => {
+    let client;
+    try {
+        const pool = dbConnect();
+        client = await pool.connect();
+
+        const answer = await client.query(users.checkUserByEmail, [user_email]);
+
+        return answer.rows[0];
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+/**
+ * Devuelve todos los usuarios
+ * @returns Retorna: Si sale bien, devuelve todos los usuarios.
+ * Si sale mal, error o vacio
+ */
+const showAllUsers = async () => {
+    let client;
+    try {
+        const pool = dbConnect();
+        client = await pool.connect();
+
+        const answer = await client.query(users.showAllUsers);
+
+        return answer.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+/**
+ * Devuelve el usuario que coincida con el id introducido
+ * @param {number} id_user Id de un usuario
+ * @returns Retorna: Si sale bien, devuelve todos los campos del id introducido.
+ * Si sale mal, error o vacio
+ */
+const showUserById = async (id_user) => {
+    let client;
+    try {
+        const poll = dbConnect();
+        client = await poll.connect();
+
+        const answer = await client.query(users.showUserById, [id_user]);
+
+        return answer.rows[0];
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+/**
+ * Crea un usuario nuevo
+ * @param {string} user_name Nombre del usuario
+ * @param {string} user_password Contraseña del usuario
+ * @param {string} user_email Email del usuario
+ * @param {string} user_role Rol del usuario
+ * @returns Retorna: Si sale bien, devuelve los datos del usuario creado.
+ * Si sale mal, error o vacio
+ */
+const createUser = async (user_name, user_password, user_email, user_role) => {
+    let client;
+    try {
+        const poll = dbConnect();
+        client = await poll.connect();
+
+        const answer = await client.query(users.createUser, [user_name, user_password, user_email, user_role]);
+
+        return answer.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+/**
+ * Modifica el rol de un usuario
+ * @param {number} user_role Id del role
+ * @param {number} user_id Id del usuario
+ * @returns Retorna: Si sale bien, devuelve todos los campos del usuario modificado.
+ * Si sale mal, error o vacio
+ */
+const modifyUser = async (user_role, user_id) => {
+    let client;
+    try {
+        const poll = dbConnect();
+        client = await poll.connect();
+
+        const answer = await client.query(users.modifyUser, [user_role, user_id])
+
+        return answer.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+/**
+ * Elimina a un usuario
+ * @param {number} id_user Id del usuario
+ * @returns Retorna: Si sale bien, devuelve todos los datos del usuarios eliminado.
+ * Si sale mal, error o vacio
+ */
+const deleteUser = async (id_user) => {
+    let client;
+    try {
+        const poll = dbConnect();
+        client = await poll.connect();
+
+        const answer = await client.query(users.deleteUser, [id_user]);
+
+        return answer.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+module.exports = {
+    showRoles,
+    checkUsers,
+    checkRoles,
+    checkUserByEmail,
+    showAllUsers,
+    showUserById,
+    createUser,
+    modifyUser,
+    deleteUser
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addFavorite">addFavorite</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#checkIfEmailExists">checkIfEmailExists</a></li><li><a href="global.html#checkRoles">checkRoles</a></li><li><a href="global.html#checkUserByEmail">checkUserByEmail</a></li><li><a href="global.html#checkUsers">checkUsers</a></li><li><a href="global.html#createJWToken">createJWToken</a></li><li><a href="global.html#createPost">createPost</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#delFavorite">delFavorite</a></li><li><a href="global.html#delPost">delPost</a></li><li><a href="global.html#delUser">delUser</a></li><li><a href="global.html#deleteFavorites">deleteFavorites</a></li><li><a href="global.html#deletePost">deletePost</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#getAllDetails">getAllDetails</a></li><li><a href="global.html#getAllPosts">getAllPosts</a></li><li><a href="global.html#getAllUsers">getAllUsers</a></li><li><a href="global.html#getPostsByUserId">getPostsByUserId</a></li><li><a href="global.html#getRoles">getRoles</a></li><li><a href="global.html#getUserById">getUserById</a></li><li><a href="global.html#idExists">idExists</a></li><li><a href="global.html#insertFavorites">insertFavorites</a></li><li><a href="global.html#insertPost">insertPost</a></li><li><a href="global.html#insertUser">insertUser</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#modifyPost">modifyPost</a></li><li><a href="global.html#modifyUser">modifyUser</a></li><li><a href="global.html#port">port</a></li><li><a href="global.html#postAllDetails">postAllDetails</a></li><li><a href="global.html#postByUserId">postByUserId</a></li><li><a href="global.html#registry">registry</a></li><li><a href="global.html#renewJWToken">renewJWToken</a></li><li><a href="global.html#showAllPosts">showAllPosts</a></li><li><a href="global.html#showAllUsers">showAllUsers</a></li><li><a href="global.html#showRoles">showRoles</a></li><li><a href="global.html#showUserById">showUserById</a></li><li><a href="global.html#updatePost">updatePost</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#validateInput">validateInput</a></li><li><a href="global.html#verifyJWT">verifyJWT</a></li><li><a href="global.html#verifyRole">verifyRole</a></li><li><a href="global.html#whiteList">whiteList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 14 2025 09:09:50 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

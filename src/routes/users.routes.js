@@ -17,15 +17,16 @@ const { validateInput } = require("../middleware/validateInput");
 const routes = Router();
 
 /**
- * Rutas usuario
+ * Rutas de usuario
  */
 routes.get('/AllUsers', /* [
         check("user_email", "invalid email").notEmpty().isEmail(),
         check("user_password", "Invalid password").isLength({min: 6, max: 20}).withMessage('Debe tener entre 3 y 100 caracteres'),
         validateInput
 ], */ getAllUsers);
+routes.get('/UserById/:id_user', getUserById);
 routes.post('/Create', insertUser);
-routes.post('/Update', updateUser);
-routes.post('/Delete', delUser);
+routes.put('/Update', updateUser);
+routes.delete('/Delete', delUser);
 
 module.exports = routes;

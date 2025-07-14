@@ -11,18 +11,24 @@ const {
 } = require("../models/users.models");
 const { createJWToken } = require('../utils/createJWToken');
 
-
+/**
+ * Logea a un usuario
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos del usuario y el token JWT.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const login = async (req, res) => {
-    const {user_email, user_password} = req.body;
+    const { user_email, user_password } = req.body;
     try {
-        const email = await checkUserByEmail(user_email);
-        if (!email) {
+        const user = await checkUserByEmail(user_email);
+        if (!user) {
             return res.status(404).json({
                 ok: false,
                 msg: "El correo o la contraseña es incorrecta",
             })
         }
-        const verifyPassword = bcrypt.compareSync(user_password, email.user_password);
+        const verifyPassword = bcrypt.compareSync(user_password, user.user_password);
         if (!verifyPassword) {
             return res.status(401).json({
                 ok: false,
@@ -30,19 +36,28 @@ const login = async (req, res) => {
             })
         }
         let token;
-        await createJWToken(email.id_user , email.user_role)
-            .then((resp) => token = resp)
+
+        try {
+            token = await createJWToken(user.id_user, user.user_role)
+            console.log("login respuesta: ", token);
+        } catch (error) {
+            throw error;
+        }
+        // console.log("id user log: ", email.id_user)
+        // console.log("role user log: ", email.user_role)
+        /*         
+                    .then((resp) => token = resp)
             .catch((error) => {
                 console.log(error)
                 return res.status(401).json({
                     ok: false,
                     msg: error
                 })
-            })
+            }) */
         return res.status(200).json({
             ok: true,
             msg: 'Usuario logueado',
-            email,
+            user,
             token
         })
     } catch (error) {
@@ -54,9 +69,16 @@ const login = async (req, res) => {
     }
 }
 
+/**
+ * Registra a un usuario
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje y datos del usuario.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const registry = async (req, res) => {
     console.log("Registro: ", req.body);
-    const {user_name, user_password, user_email, user_role} = req.body;
+    const { user_name, user_password, user_email, user_role } = req.body;
     try {
         // TODO: comprobar si el rol existe (No es necesario
         // porque habra dos endpoint por donde registrarse:
@@ -98,6 +120,13 @@ const registry = async (req, res) => {
     }
 }
 
+/**
+ * Renueva el JWT a un usuario
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true y un nuevo token JWT.
+ * Si sale mal, un ok: false y un mensaje
+ */
 const renewJWToken = async (req, res) => {
     // Crear el "verifyJWT" para validar y guardar en req los datos de id y role
     //console.log("renew req :",req);
@@ -106,14 +135,12 @@ const renewJWToken = async (req, res) => {
     //console.log("RenewJWT: ", email, role);
 
     let newToken;
-    await createJWToken(id, role)
-        .then((resp) => newToken = resp)
-        .catch((error) => {
-            return res.status(401).json({
-                ok: false,
-                msg: error
-            })
-        });
+    try {
+        newToken = await createJWToken(user.id_user, user.user_role)
+        console.log("login respuesta: ", token);
+    } catch (error) {
+        throw error;
+    }
     return res.status(201).json({
         ok: true,
         newToken

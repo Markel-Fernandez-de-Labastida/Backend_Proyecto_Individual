@@ -15,13 +15,13 @@ const { validateInput } = require("../middleware/validateInput");
 const routes = Router();
 
 /**
- * Rutas usuario
+ * Rutas de autenticacion
  */
-routes.post('/login', [
+routes.post('/login', /*[
         check("user_email", "invalid email").notEmpty().isEmail(),
         check("user_password", "Invalid password").isLength({min: 6, max: 20}).withMessage('Debe tener entre 3 y 100 caracteres'),
         validateInput
-], login);
+],*/ login);
 routes.post('/register', registry);
 routes.get('/renewJWToken', verifyJWT /* verifyRole('base') */, renewJWToken)
 

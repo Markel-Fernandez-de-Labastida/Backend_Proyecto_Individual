@@ -1,6 +1,6 @@
 const users = {
     checkRoleExists: ``, // Quizas no sea necesario. Se hace en fronted
-    checkUserExist: `select * from users where id_user = $1`, 
+    checkUserExist: `select * from users where id_user = $1`,
     checkUserByEmail: `select *
                 from users
                 where users.user_email = $1`,
@@ -8,10 +8,10 @@ const users = {
     showRoles: `select * from roles`,
     checkRoles: `select * from roles
                 where id_role = $1`,
-    showAllUsers : `select user_name, user_email, user_password, roles.role_name 
+    showAllUsers: `select id_user, user_name, user_email, user_password, roles.role_name 
                 from users
                 inner join roles on users.user_role = roles.id_role`,
-    showUserById : `select user_name, user_email, user_password, roles.role_name 
+    showUserById: `select id_user, user_name, user_email, user_password, roles.role_name 
                 from users
                 inner join roles on users.user_role = roles.id_role
                 where users.id_user = $1`,
@@ -33,6 +33,9 @@ const blog = {
     showAllPosts: `select id_post, users.user_name, post_title, post_subtitle, post_content, post_link, date_insert 
                     from posts
                     inner join users on posts.post_user = users.id_user`,
+    showPostsByUserId: `select users.user_name, post_title, post_subtitle, post_content, date_insert from posts
+                    inner join users on posts.post_user = users.id_user
+                    where post_user = $1`,
     checkPostExsists: `select * from posts where id_post = $1`,
     postAllDetails: `select id_post, users.user_name, post_title, post_subtitle, post_content, post_link, date_insert 
                     from posts

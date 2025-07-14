@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/favorites.controllers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/favorites.controllers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const {
+    addFavorite,
+    delFavorite
+} = require("../models/favorites.models");
+
+
+/**
+ * Inserta una cancion a favoritos
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
+const insertFavorites = async (req, res) => {
+    const { id_user, id_track } = req.body;
+    try {
+        const posts = await addFavorite(id_user, id_track);
+        if (!posts) {
+            return res.status(404).json({
+                ok: false,
+                msg: "No se ha podido añadir a favoritos",
+            })
+        } else {
+            return res.status(200).json({
+                ok: true,
+                msg: "añadido a favoritos",
+                data: posts,
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error. Contacte con el administrador'
+        })
+    }
+}
+
+/**
+ * Elimina una cancion de favoritos
+ * @param {object} req Objeto con los datos entrantes
+ * @param {object} res Objeto con los datos salientes
+ * @returns Devueve un objeto: Si sale bien, un ok: true, mensaje, datos devueltos pos la base de datos.
+ * Si sale mal, un ok: false y un mensaje
+ */
+const deleteFavorites = async (req, res) => {
+    const { id_favorite } = req.body;
+    try {
+        const posts = await delFavorite(id_favorite);
+        if (!posts) {
+            return res.status(404).json({
+                ok: false,
+                msg: "No se ha podido eliminar de favoritos",
+            })
+        } else {
+            return res.status(200).json({
+                ok: true,
+                msg: "eliminar de favoritos",
+                data: posts,
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error. Contacte con el administrador'
+        })
+    }
+}
+
+module.exports = {
+    insertFavorites,
+    deleteFavorites
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addFavorite">addFavorite</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#checkIfEmailExists">checkIfEmailExists</a></li><li><a href="global.html#checkRoles">checkRoles</a></li><li><a href="global.html#checkUserByEmail">checkUserByEmail</a></li><li><a href="global.html#checkUsers">checkUsers</a></li><li><a href="global.html#createJWToken">createJWToken</a></li><li><a href="global.html#createPost">createPost</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#delFavorite">delFavorite</a></li><li><a href="global.html#delPost">delPost</a></li><li><a href="global.html#delUser">delUser</a></li><li><a href="global.html#deleteFavorites">deleteFavorites</a></li><li><a href="global.html#deletePost">deletePost</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#getAllDetails">getAllDetails</a></li><li><a href="global.html#getAllPosts">getAllPosts</a></li><li><a href="global.html#getAllUsers">getAllUsers</a></li><li><a href="global.html#getPostsByUserId">getPostsByUserId</a></li><li><a href="global.html#getRoles">getRoles</a></li><li><a href="global.html#getUserById">getUserById</a></li><li><a href="global.html#idExists">idExists</a></li><li><a href="global.html#insertFavorites">insertFavorites</a></li><li><a href="global.html#insertPost">insertPost</a></li><li><a href="global.html#insertUser">insertUser</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#modifyPost">modifyPost</a></li><li><a href="global.html#modifyUser">modifyUser</a></li><li><a href="global.html#port">port</a></li><li><a href="global.html#postAllDetails">postAllDetails</a></li><li><a href="global.html#postByUserId">postByUserId</a></li><li><a href="global.html#registry">registry</a></li><li><a href="global.html#renewJWToken">renewJWToken</a></li><li><a href="global.html#showAllPosts">showAllPosts</a></li><li><a href="global.html#showAllUsers">showAllUsers</a></li><li><a href="global.html#showRoles">showRoles</a></li><li><a href="global.html#showUserById">showUserById</a></li><li><a href="global.html#updatePost">updatePost</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#validateInput">validateInput</a></li><li><a href="global.html#verifyJWT">verifyJWT</a></li><li><a href="global.html#verifyRole">verifyRole</a></li><li><a href="global.html#whiteList">whiteList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 14 2025 09:09:50 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
